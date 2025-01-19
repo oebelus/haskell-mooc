@@ -2,3 +2,7 @@
 *.lock
 .stack-work
 score.json
+t
+t.hi
+t.hs
+t.o
