@@ -118,7 +118,7 @@ capitalize s = unwords (map (\x -> toUpper (head x) : (tail x)) (words s))
 --   * the function takeWhile
 
 powers :: Int -> Int -> [Int]
-powers k max = todo
+powers k max = takeWhile (\x -> x <= max) (map (\x -> k^x) [0, 1..]) 
 
 ------------------------------------------------------------------------------
 -- Ex 7: implement a functional while loop. While should be a function
@@ -141,7 +141,9 @@ powers k max = todo
 --     ==> Avvt
 
 while :: (a->Bool) -> (a->a) -> a -> a
-while check update value = todo
+while check update value
+    | check value == True = while check update (update value)
+    | otherwise = value
 
 ------------------------------------------------------------------------------
 -- Ex 8: another version of a while loop. This time, the check
@@ -161,7 +163,10 @@ while check update value = todo
 -- Hint! Remember the case-of expression from lecture 2.
 
 whileRight :: (a -> Either b a) -> a -> b
-whileRight check x = todo
+whileRight check x =
+    case check x of
+        Left result -> result
+        Right x -> whileRight check x
 
 -- for the whileRight examples:
 -- step k x doubles x if it's less than k
