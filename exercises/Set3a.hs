@@ -204,6 +204,8 @@ joinToLength n l = [x ++ y | x <- l, y <- l, length (x ++ y) == n]
 --   [] +|+ [True]        ==> [True]
 --   [] +|+ []            ==> []
 
+(+|+) :: [a] -> [a] -> [a]
+x +|+ y = (take 1 x) ++ (take 1 y)
 
 ------------------------------------------------------------------------------
 -- Ex 11: remember the lectureParticipants example from Lecture 2? We
