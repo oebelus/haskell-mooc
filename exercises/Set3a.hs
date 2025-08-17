@@ -222,7 +222,7 @@ x +|+ y = (take 1 x) ++ (take 1 y)
 --   sumRights [Left "bad!", Left "missing"]         ==>  0
 
 sumRights :: [Either a Int] -> Int
-sumRights = todo
+sumRights l = sum (map (either (const 0) id) l)
 
 ------------------------------------------------------------------------------
 -- Ex 12: recall the binary function composition operation
@@ -238,7 +238,11 @@ sumRights = todo
 --   multiCompose [(3*), (2^), (+1)] 0 ==> 6
 --   multiCompose [(+1), (2^), (3*)] 0 ==> 2
 
-multiCompose fs = todo
+multiCompose fs = foldr (.) id fs
+-- multiCompose fs = foldl (flip (.)) id fs
+
+-- multiCompose (f:fs) a = f (multiCompose fs a)
+-- multiCompose [] a = a
 
 ------------------------------------------------------------------------------
 -- Ex 13: let's consider another way to compose multiple functions. Given
