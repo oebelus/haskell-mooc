@@ -303,4 +303,15 @@ compose (g:gs) x = g x : (compose gs x)
 -- function, the surprise won't work. See section 3.8 in the material.
 
 interpreter :: [String] -> [String]
-interpreter commands = todo
+interpreter commands = interpret commands [] (0, 0)
+
+interpret :: [String] -> [Int] -> (Int, Int) -> [String]
+interpret [] output t = map show output
+interpret (x : xs) output t
+  | x == "up" = interpret xs output (fst t, snd t + 1)
+  | x == "down" = interpret xs output (fst t, snd t - 1)
+  | x == "right" = interpret xs output (fst t + 1, snd t)
+  | x == "left" = interpret xs output (fst t - 1, snd t)
+  | x == "printX" = interpret xs (output ++ [fst t]) t
+  | x == "printY" = interpret xs (output ++ [snd t]) t
+  | otherwise = map show output
