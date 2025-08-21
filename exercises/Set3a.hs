@@ -5,13 +5,12 @@
 
 module Set3a where
 
-import Mooc.Todo
-
 -- Some imports you'll need.
 -- Do not add any other imports! :)
 import Data.Char
 import Data.Either
 import Data.List
+import Mooc.Todo
 
 ------------------------------------------------------------------------------
 -- Ex 1: implement the function maxBy that takes as argument a
@@ -101,7 +100,7 @@ palindrome x = x == reverse x
 --   capitalize "goodbye cruel world" ==> "Goodbye Cruel World"
 
 capitalize :: String -> String
-capitalize s = unwords (map (\x -> toUpper (head x) : (tail x)) (words s))
+capitalize s = unwords (map (\x -> toUpper (head x) : tail x) (words s))
 
 ------------------------------------------------------------------------------
 -- Ex 6: powers k max should return all the powers of k that are less
@@ -118,7 +117,7 @@ capitalize s = unwords (map (\x -> toUpper (head x) : (tail x)) (words s))
 --   * the function takeWhile
 
 powers :: Int -> Int -> [Int]
-powers k max = takeWhile (\x -> x <= max) (map (\x -> k^x) [0, 1..]) 
+powers k max = takeWhile (<= max) (map (k ^) [0, 1 ..])
 
 ------------------------------------------------------------------------------
 -- Ex 7: implement a functional while loop. While should be a function
@@ -140,10 +139,10 @@ powers k max = takeWhile (\x -> x <= max) (map (\x -> k^x) [0, 1..])
 --   in while check tail "xyzAvvt"
 --     ==> Avvt
 
-while :: (a->Bool) -> (a->a) -> a -> a
+while :: (a -> Bool) -> (a -> a) -> a -> a
 while check update value
-    | check value == True = while check update (update value)
-    | otherwise = value
+  | check value = while check update (update value)
+  | otherwise = value
 
 ------------------------------------------------------------------------------
 -- Ex 8: another version of a while loop. This time, the check
@@ -164,19 +163,19 @@ while check update value
 
 whileRight :: (a -> Either b a) -> a -> b
 whileRight check x =
-    case check x of
-        Left result -> result
-        Right x -> whileRight check x
+  case check x of
+    Left result -> result
+    Right x -> whileRight check x
 
 -- for the whileRight examples:
 -- step k x doubles x if it's less than k
 step :: Int -> Int -> Either Int Int
-step k x = if x<k then Right (2*x) else Left x
+step k x = if x < k then Right (2 * x) else Left x
 
 -- bomb x implements a countdown: it returns x-1 or "BOOM" if x was 0
 bomb :: Int -> Either String Int
 bomb 0 = Left "BOOM"
-bomb x = Right (x-1)
+bomb x = Right (x - 1)
 
 ------------------------------------------------------------------------------
 -- Ex 9: given a list of strings and a length, return all strings that
@@ -205,7 +204,7 @@ joinToLength n l = [x ++ y | x <- l, y <- l, length (x ++ y) == n]
 --   [] +|+ []            ==> []
 
 (+|+) :: [a] -> [a] -> [a]
-x +|+ y = (take 1 x) ++ (take 1 y)
+x +|+ y = take 1 x ++ take 1 y
 
 ------------------------------------------------------------------------------
 -- Ex 11: remember the lectureParticipants example from Lecture 2? We
@@ -222,7 +221,7 @@ x +|+ y = (take 1 x) ++ (take 1 y)
 --   sumRights [Left "bad!", Left "missing"]         ==>  0
 
 sumRights :: [Either a Int] -> Int
-sumRights l = sum (map (either (const 0) id) l)
+sumRights l = sum (map (fromRight 0) l)
 
 ------------------------------------------------------------------------------
 -- Ex 12: recall the binary function composition operation
@@ -238,7 +237,9 @@ sumRights l = sum (map (either (const 0) id) l)
 --   multiCompose [(3*), (2^), (+1)] 0 ==> 6
 --   multiCompose [(+1), (2^), (3*)] 0 ==> 2
 
-multiCompose fs = foldr (.) id fs
+multiCompose :: (Foldable t) => t (b -> b) -> b -> b
+multiCompose = foldr (.) id
+
 -- multiCompose fs = foldl (flip (.)) id fs
 
 -- multiCompose (f:fs) a = f (multiCompose fs a)
