@@ -268,8 +268,7 @@ multiApp :: ([a] -> b) -> [c -> a] -> c -> b
 multiApp f gs x = f (compose gs x)
 
 compose :: [a -> b] -> a -> [b]
-compose [] x = []
-compose (g:gs) x = g x : (compose gs x)
+compose gs x = map (\g -> g x) gs
 
 ------------------------------------------------------------------------------
 -- Ex 14: in this exercise you get to implement an interpreter for a
