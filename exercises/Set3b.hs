@@ -50,17 +50,17 @@ buildList start count end
 -- Ps. you'll probably need a recursive helper function
 
 sums :: Int -> [Int]
-sums i = sumFromTo 1 i
+sums = sumFromTo 1
 
 sumFromTo :: Int -> Int -> [Int]
 sumFromTo n i
-    | n > i = []
-    | n == 1 = 1 : sumFromTo (n + 1) i
-    | otherwise = sumsHelper [2..n] : sumFromTo (n + 1) i
+  | n > i = []
+  | n == 1 = 1 : sumFromTo (n + 1) i
+  | otherwise = sumsHelper [2 .. n] : sumFromTo (n + 1) i
 
 sumsHelper :: [Int] -> Int
 sumsHelper [] = 1
-sumsHelper (x:xs) = x + sumsHelper xs
+sumsHelper (x : xs) = x + sumsHelper xs
 
 ------------------------------------------------------------------------------
 -- Ex 3: define a function mylast that returns the last value of the
@@ -75,7 +75,7 @@ sumsHelper (x:xs) = x + sumsHelper xs
 
 mylast :: a -> [a] -> a
 mylast def [] = def
-mylast def (x:xs) = mylast x xs
+mylast def (x : xs) = mylast x xs
 
 ------------------------------------------------------------------------------
 -- Ex 4: safe list indexing. Define a function indexDefault so that
@@ -97,10 +97,10 @@ indexDefault xs i def = indexed xs i 0 def
 
 indexed :: [a] -> Int -> Int -> a -> a
 indexed [] i s def = def
-indexed (x:xs) i s def
-    | i == s = x
-    | s > i = def
-    | otherwise = indexed xs i (s + 1) def
+indexed (x : xs) i s def
+  | i == s = x
+  | s > i = def
+  | otherwise = indexed xs i (s + 1) def
 
 ------------------------------------------------------------------------------
 -- Ex 5: define a function that checks if the given list is in
@@ -118,9 +118,9 @@ indexed (x:xs) i s def
 sorted :: [Int] -> Bool
 sorted [] = True
 sorted [x] = True
-sorted (x:y:xs)
-    | x > y = False
-    | otherwise = sorted (y:xs)
+sorted (x : y : xs)
+  | x > y = False
+  | otherwise = sorted (y : xs)
 
 ------------------------------------------------------------------------------
 -- Ex 6: compute the partial sums of the given list like this:
@@ -133,11 +133,11 @@ sorted (x:y:xs)
 
 sumsOf :: [Int] -> [Int]
 sumsOf [] = []
-sumsOf (x:xs) = x : add x (sumsOf xs)
+sumsOf (x : xs) = x : add x (sumsOf xs)
 
 add :: Int -> [Int] -> [Int]
 add _ [] = []
-add n (x:xs) = (n + x) : add n xs
+add n (x : xs) = (n + x) : add n xs
 
 ------------------------------------------------------------------------------
 -- Ex 7: implement the function merge that merges two sorted lists of
@@ -153,9 +153,9 @@ merge :: [Int] -> [Int] -> [Int]
 merge [] [] = []
 merge [] ys = ys
 merge xs [] = xs
-merge (x:xs) (y:ys)
-    | x <= y = x : merge xs (y:ys)
-    | x > y = y : merge (x:xs) ys
+merge (x : xs) (y : ys)
+  | x <= y = x : merge xs (y : ys)
+  | x > y = y : merge (x : xs) ys
 
 ------------------------------------------------------------------------------
 -- Ex 8: compute the biggest element, using a comparison function
