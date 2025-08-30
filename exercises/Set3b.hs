@@ -183,10 +183,7 @@ merge (x : xs) (y : ys)
 --     ==> ("Mouse",8)
 
 mymaximum :: (a -> a -> Bool) -> a -> [a] -> a
-mymaximum bigger initial [] = initial
-mymaximum bigger initial (x:xs)
-    | bigger initial x = mymaximum bigger initial xs
-    | otherwise = mymaximum bigger x xs
+mymaximum bigger initial xs = todo
 
 ------------------------------------------------------------------------------
 -- Ex 9: define a version of map that takes a two-argument function
@@ -200,9 +197,7 @@ mymaximum bigger initial (x:xs)
 -- Use recursion and pattern matching. Do not use any library functions.
 
 map2 :: (a -> b -> c) -> [a] -> [b] -> [c]
-map2 f [] bs = []
-map2 f as [] = []
-map2 f (a:as) (b:bs) = f a b : map2 f as bs
+map2 f as bs = todo
 
 ------------------------------------------------------------------------------
 -- Ex 10: implement the function maybeMap, which works a bit like a
@@ -226,8 +221,4 @@ map2 f (a:as) (b:bs) = f a b : map2 f as bs
 --   ==> []
 
 maybeMap :: (a -> Maybe b) -> [a] -> [b]
-maybeMap f [] = []
-maybeMap f (x:xs) =
-    case f x of
-        Just result -> result : maybeMap f xs
-        Nothing -> maybeMap f xs
+maybeMap f xs = todo
