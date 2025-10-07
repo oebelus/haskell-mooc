@@ -132,7 +132,10 @@ data Student = Freshman | NthYear Int | Graduated
 -- graduated student stays graduated even if he studies.
 
 study :: Student -> Student
-study = todo
+study x = case x of
+  Freshman -> NthYear 1
+  NthYear n -> if n < 7 then NthYear (n + 1) else Graduated
+  Graduated -> Graduated
 
 ------------------------------------------------------------------------------
 -- Ex 7: define a datatype UpDown that represents a counter that can
@@ -151,25 +154,32 @@ study = todo
 -- get (tick (tick (toggle (tick zero))))
 --   ==> -1
 
-data UpDown = UpDownUndefined1 | UpDownUndefined2
+data UpDown = Increasing Int | Decreasing Int
+  deriving Show
 
 -- zero is an increasing counter with value 0
 zero :: UpDown
-zero = todo
+zero = Increasing 0
 
 -- get returns the counter value
 get :: UpDown -> Int
-get ud = todo
+get ud = case ud of
+  Increasing x -> x
+  Decreasing x -> x
 
 -- tick increases an increasing counter by one or decreases a
 -- decreasing counter by one
 tick :: UpDown -> UpDown
-tick ud = todo
+tick ud = case ud of
+  Increasing x -> Increasing (x + 1)
+  Decreasing x -> Decreasing (x - 1)
 
 -- toggle changes an increasing counter into a decreasing counter and
 -- vice versa
 toggle :: UpDown -> UpDown
-toggle ud = todo
+toggle ud = case ud of
+  Increasing x -> Decreasing x
+  Decreasing x -> Increasing x
 
 ------------------------------------------------------------------------------
 -- Ex 8: you'll find a Color datatype below. It has the three basic
