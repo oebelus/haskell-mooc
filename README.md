@@ -1,8 +1,6 @@
 # Haskell MOOC
 
-These are my solutions to the University of Helsinki Haskell Mooc course.
-
-<p align="center"><img alt="Course logo" src="img/haskell-mooc-logo.svg" width="400" align="center"></p>
+These are my solutions to the University of Helsinki Haskell course, from the main repository [haskell-mooc](https://github.com/moocfi/haskell-mooc).
 
 ## Exercises
 
