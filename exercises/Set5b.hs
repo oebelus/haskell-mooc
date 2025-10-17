@@ -223,5 +223,13 @@ set (x : xs) val (Node t l r) = case x of
 --                            (Node 1 Empty Empty))
 --                    (Node 5 Empty Empty))                     ==>  Just [StepL,StepR]
 
-search :: (Eq a) => a -> Tree a -> Maybe [Step]
-search = todo
+search :: Eq a => a -> Tree a -> Maybe [Step]
+search val Empty = Nothing
+search val t = reverse <$> searchHelper val [] t -- fmap reverse
+  where
+    searchHelper val steps Empty = Nothing
+    searchHelper val steps (Node t l r) = 
+      if t == val then Just steps else
+      case searchHelper val (StepL : steps) l of
+        Just s -> Just s
+        Nothing -> searchHelper val (StepR : steps) r
